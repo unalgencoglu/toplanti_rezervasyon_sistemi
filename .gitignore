@@ -1,0 +1,20 @@
+# Bağımlılıklar
+node_modules/
+
+# Gizli bilgiler
+.env
+
+# Derleme çıktıları
+dist/
+build/
+
+# Test raporları
+coverage/
+
+# Loglar
+*.log
+
+# İşletim sistemi ve editör dosyaları
+.DS_Store
+Thumbs.db
+.vscode/

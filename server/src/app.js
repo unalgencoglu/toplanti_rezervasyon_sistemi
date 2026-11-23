@@ -55,6 +55,39 @@ app.post('/odalar', (req, res) => {
     res.status(201).json(yeniOda);
 });
 
+app.put('/odalar/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const oda = odalar.find(o => o.id === id);
+
+    if(!oda) {
+        return res.status(404).json({ mesaj: 'id bulunamadı' });
+    }
+
+    const { ad, kapasite, kat } = req.body;
+
+    if(!ad || !kapasite || !kat ) {
+        return res.status(400).json({ mesaj: 'Eksik veya hatalı veri' });
+    }
+
+    oda.ad = ad;
+    oda.kapasite = kapasite;
+    oda.kat = kat;
+
+    res.status(200).json(oda);
+});
+
+app.delete('/odalar/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const index = odalar.findIndex(o => o.id === id);
+
+    if(index === -1) {
+        return res.status(404).json({ mesaj: 'id bulunamadı' });
+    }
+
+    odalar.splice(index, 1);
+    res.status(204).send();
+})
+
 app.listen(4500, () => {
     return console.log("sunucu ayakta");
 });

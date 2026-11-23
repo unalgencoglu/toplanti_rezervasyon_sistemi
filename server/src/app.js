@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
+let sonId = 4;
 
 const odalar = [
     { id: 1, ad: 'T100', kapasite: 15, kat: 1 },
@@ -26,6 +28,31 @@ app.get('/odalar/:id', (req, res) => {
     }
 
     res.status(200).json(oda);
+});
+
+app.post('/odalar', (req, res) => {
+    const { ad, kapasite, kat } = req.body;
+
+    if(!ad || kapasite === undefined || kat === undefined ) {
+        return res.status(400).json({ mesaj: 'Eksik veya hatalı veri' });
+    }
+
+    if (!Number.isInteger(kapasite) || !Number.isInteger(kat) || kapasite < 1) {
+        return res.status(400).json({ mesaj: 'Kapasite ve kat tam sayı olmalı' });
+    }
+
+    sonId += 1;
+
+    const yeniOda = {
+        id: sonId,
+        ad: ad,
+        kapasite: kapasite,
+        kat: kat,
+    };
+
+    odalar.push(yeniOda);
+
+    res.status(201).json(yeniOda);
 });
 
 app.listen(4500, () => {
